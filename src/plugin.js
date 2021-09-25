@@ -128,7 +128,10 @@ ImportMapPlugin.prototype.apply = function (compiler) {
                 });
             }
 
-            const isEntryAsset = asset.chunks.length > 0;
+            const isEntryAsset = !asset.chunks || Array.isArray(asset)
+              ? asset.chunks.length > 0
+              : true;
+
             if (isEntryAsset) {
                 return files;
             }
@@ -245,6 +248,12 @@ ImportMapPlugin.prototype.apply = function (compiler) {
         if (manifest.files) {
             manifest = manifest.files;
         }
+
+        for (const prop in manifest) {
+          manifest[prop.replace('.js', '')] = manifest[prop]
+          delete manifest[prop]
+        }
+
         // now take the manifest and wrap it in the import-map syntax
         const importMap = {
             imports: {
