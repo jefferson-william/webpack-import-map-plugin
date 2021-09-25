@@ -128,7 +128,7 @@ ImportMapPlugin.prototype.apply = function (compiler) {
                 });
             }
 
-            const isEntryAsset = !asset.chunks || Array.isArray(asset)
+            const isEntryAsset = Array.isArray(asset)
               ? asset.chunks.length > 0
               : true;
 
